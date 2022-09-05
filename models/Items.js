@@ -11,8 +11,9 @@ module.exports = (sequelize, DataTypes) => {
     Items.hasMany(models.ItemFields, {
       onDelete: "cascade",
     });
-    Items.belongsToMany(models.Tags, { through: 'ItemTags' });
+    Items.belongsToMany(models.Tags, { through: { model: 'ItemTags', unique: false, foreignKey: "items" }});
   }
+
 
   return Items;
 };

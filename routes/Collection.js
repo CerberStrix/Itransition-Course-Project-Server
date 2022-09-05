@@ -84,7 +84,7 @@ router.patch("/edit/:collectionId", async (req, res) => {
     fields,
   } = req.body;
 
-  const collection = await Collection.findByPk(collectionId);
+
 
   await Collection.update({
     name: name,
@@ -99,6 +99,9 @@ router.patch("/edit/:collectionId", async (req, res) => {
       CollectionId: collectionId,
     }
   })
+
+  const collection = await Collection.findByPk(collectionId);
+
   for (const { name, type } of fields) {
     const newField = await FieldsType.create({
       name: name,
@@ -106,7 +109,14 @@ router.patch("/edit/:collectionId", async (req, res) => {
     });
     collection.addFieldsType(newField);
   };
-  res.json("EDITED SUCCESSFULLY");
+  
+  const newFields = await FieldsType.findAll({
+  where: {
+    CollectionId: collectionId,
+  }});
+
+  console.log(newFields)
+  res.json({ collection, newFields });
 })
 
 module.exports = router;

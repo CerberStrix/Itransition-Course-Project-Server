@@ -13,9 +13,15 @@ app.use("/authentification", authentification);
 const collection = require("./routes/Collection");
 app.use("/collection", collection);
 
+const items = require("./routes/Items");
+app.use("/items", items)
+
+const tags = require("./routes/Tags");
+app.use("/tags", tags);
+
 
 db.sequelize.sync().then(() => {
-  app.listen(process.env.PORT || 3001, () => {
+  app.listen(3001, () => {
     console.log("Server running on port 3001")
   });
 })
